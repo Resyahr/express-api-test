@@ -15,8 +15,8 @@ server.use(json());
 
 const PORT = process.env.SERVER_PORT;
 
-mongoose.connect(process.env.MONGO_PASS).then(() => {
-  server.listen(PORT, (req, res) => {
+mongoose.connect("mongodb+srv://resyahr:BTOQV5tvdBzD9tTf@cluster0.hf3ulc8.mongodb.net?retryWrites=true").then(() => {
+  server.listen(PORT, (_, _) => {
     console.log(`Alive on port ${PORT} and connected to Database`);
   });
 });
@@ -86,5 +86,17 @@ server.delete("/author/:id", async (req, res) => {
     res.json({ message: "Author deleted successfully" });
   } catch (err) {
     res.status(500).json({ message: `Internal server error: ${err}` });
+  }
+});
+
+server.delete("/allAuthors", async (req, res) => {
+  try {
+    const { deletedCount } = await DataModel.deleteMany();
+    if (deletedCount === 0) {
+      return res.status(404).json({ message: "Not authors found" });
+    }
+    res.status(200).json({message: `Deleted ${deletedCount} authors succesfully`})
+  } catch (err) {
+    res.status(500).json({ message: `Internal server error ${err}` });
   }
 });
