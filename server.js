@@ -19,6 +19,9 @@ mongoose.connect("mongodb+srv://resyahr:BTOQV5tvdBzD9tTf@cluster0.hf3ulc8.mongod
   server.listen(PORT, (_, _) => {
     console.log(`Alive on port ${PORT} and connected to Database`);
   });
+})
+.catch ((err) => {
+    console.log(err)
 });
 
 server.get("/authors", async (_, res) => {
