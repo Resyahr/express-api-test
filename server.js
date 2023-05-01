@@ -17,7 +17,7 @@ const PORT = process.env.SERVER_PORT;
 
 mongoose.connect("mongodb+srv://resyahr:BTOQV5tvdBzD9tTf@cluster0.hf3ulc8.mongodb.net?retryWrites=true").then(() => {
   server.listen(5001, (_, __) => {
-    console.log(`Alive on port ${PORT} and connected to Database`);
+    console.log(`Alive on port 5001 and connected to Database`);
   });
 })
 .catch ((err) => {
