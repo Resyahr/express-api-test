@@ -14,7 +14,7 @@ dotenv.config(cors());
 //Instantiate express object/function to the constant server
 const server = express();
 server.use(json());
-server.use();
+server.use(cors());
 
 const PORT = process.env.SERVER_PORT;
 
