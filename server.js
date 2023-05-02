@@ -1,28 +1,35 @@
 import express, { json } from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cors from "cors";
+import fs from "fs";
 
 import DataSchema from "./DataSchema.js";
 
 const DataModel = mongoose.model("DataModel", DataSchema);
 
 //Call dotenv config object
-dotenv.config();
+dotenv.config(cors());
 
 //Instantiate express object/function to the constant server
 const server = express();
 server.use(json());
+server.use();
 
 const PORT = process.env.SERVER_PORT;
 
-mongoose.connect("mongodb+srv://resyahr:BTOQV5tvdBzD9tTf@cluster0.hf3ulc8.mongodb.net?retryWrites=true").then(() => {
-  server.listen(5001, (_, __) => {
-    console.log(`Alive on port 5001 and connected to Database`);
+mongoose
+  .connect(
+    "mongodb+srv://resyahr:BTOQV5tvdBzD9tTf@cluster0.hf3ulc8.mongodb.net?retryWrites=true"
+  )
+  .then(() => {
+    server.listen(5001, (_, __) => {
+      console.log(`Alive on port 5001 and connected to Database`);
+    });
+  })
+  .catch((err) => {
+    console.log(err);
   });
-})
-.catch ((err) => {
-    console.log(err)
-});
 
 server.get("/authors", async (_, res) => {
   try {
@@ -98,7 +105,9 @@ server.delete("/allAuthors", async (req, res) => {
     if (deletedCount === 0) {
       return res.status(404).json({ message: "Not authors found" });
     }
-    res.status(200).json({message: `Deleted ${deletedCount} authors succesfully`})
+    res
+      .status(200)
+      .json({ message: `Deleted ${deletedCount} authors succesfully` });
   } catch (err) {
     res.status(500).json({ message: `Internal server error ${err}` });
   }
